@@ -1,0 +1,132 @@
+& when (@media-common = true) {
+    .toolbar-products .modes {
+        display: flex;
+    }
+
+    .requisition-list-action > .action.toggle {
+        display: flex;
+    }
+
+    .products-table .tocart-toolbar-select button {
+        float: right;
+    }
+
+    table.products.list {
+        th {
+            text-align: center;
+            border-bottom: 1px solid;
+        }
+
+        .col {
+            &-checkbox {
+                padding: 0;
+            }
+
+            &-qty .input-text {
+                width: 60px;
+                text-align: center;
+            }
+        }
+
+        td.product-item-inner .qty,
+        .requisition-list-button > span,
+        .actions-secondary > .button > .split > span  {
+            display: none;
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .toolbar-products .modes {
+        gap: @indent__s;
+    }
+
+    .table-wrapper {
+        padding-top: @indent__s;
+
+        table.products.list {
+            .lib-table-responsive();
+            
+            tr {
+                border-bottom: 1px solid;
+            }
+
+            td.col {
+                display: flex;
+                align-items: center;
+                
+                &:not(.col-checkbox) {
+                    justify-content: center;
+                }
+
+                > * {
+                    max-width: 400px;
+                }
+
+                &-price .price-box {
+                    margin: 0;
+                }
+            }
+
+            .product-item-actions {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: @indent__s;
+                gap: 24px;
+            }
+            
+            .out-of-stock {
+                display: none;
+            } 
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .mode-table.modes-mode {
+        .lib-icon-font(
+            @icon-dropdown-list,
+            @_icon-font: @icons-magento__font-name
+        );
+    }
+
+    table.products.list {
+        .col {
+            &.name {
+                white-space: nowrap;
+            }
+
+            &-price .price-box {
+                margin: 0 10px;
+            }
+        }
+
+        .product-image-container {
+            max-width: 10vw;
+            min-width: 95px;
+        }
+
+        .actions-secondary {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .actions-primary, .actions-secondary, .actions-primary .tocart {
+            width: 100%;
+        }
+
+        .actions-primary .stock {
+            padding: 0;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: (@screen__l - 1)) {
+            th, td {
+                padding: 5px;
+            }
+        }
+    }
+}
