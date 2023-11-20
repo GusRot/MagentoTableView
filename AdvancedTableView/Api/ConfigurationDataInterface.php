@@ -9,42 +9,92 @@ namespace Crimson\AdvancedTableView\Api;
 interface ConfigurationDataInterface
 {
     /**
-     * @var string IMAGE
+     * @var string IMAGE_VALUE
      */
-    const IMAGE = 'image';
+    const IMAGE_VALUE = 'image';
+    /**
+     * @var string IMAGE_LABEL
+     */
+    const IMAGE_LABEL = 'Image';
 
     /**
-     * @var string NAME
+     * @var string NAME_VALUE
      */
-    const NAME = 'name';
+    const NAME_VALUE = 'name';
+    /**
+     * @var string NAME_LABEL
+     */
+    const NAME_LABEL = 'Name';
 
     /**
-     * @var string SKU
+     * @var string DESCRIPTION_VALUE
      */
-    const SKU = 'sku';
-    
+    const DESCRIPTION_VALUE = 'description';
     /**
-     * @var string PRICE
+     * @var string DESCRIPTION_LABEL
      */
-    const PRICE = 'price';
+    const DESCRIPTION_LABEL = 'Description';
 
     /**
-     * @var string QTY
+     * @var string SKU_VALUE
      */
-    const QTY = 'qty';
+    const SKU_VALUE = 'sku';
+    /**
+     * @var string SKU_LABEL
+     */
+    const SKU_LABEL = 'SKU';
 
     /**
-     * @var string ACTIONS
+     * @var string REVIEWS_VALUE
      */
-    const ACTIONS = 'actions';
+    const REVIEWS_VALUE = 'reviews';
+    /**
+     * @var string REVIEWS_LABEL
+     */
+    const REVIEWS_LABEL = 'Reviews';
 
     /**
-     * @var string ACTIONS_SECONDARY
+     * @var string PRICE_VALUE
      */
-    const ACTIONS_SECONDARY = 'actionsSecondary';
+    const PRICE_VALUE = 'price';
+    /**
+     * @var string PRICE_LABEL
+     */
+    const PRICE_LABEL = 'Price';
 
     /**
-     * @var string MASS_SELECT
+     * @var string QTY_VALUE
      */
-    const MASS_SELECT = 'massSelect';
+    const QTY_VALUE = 'qty';
+    /**
+     * @var string QTY_LABEL
+     */
+    const QTY_LABEL = 'Quantity';
+
+    /**
+     * @var string ACTIONS_VALUE
+     */
+    const ACTIONS_VALUE = 'actions';
+    /**
+     * @var string ACTIONS_LABEL
+     */
+    const ACTIONS_LABEL = 'Actions';
+
+    /**
+     * @var string ACTIONS_SECONDARY_VALUE
+     */
+    const ACTIONS_SECONDARY_VALUE = 'actionsSecondary';
+    /**
+     * @var string ACTIONS_SECONDARY_LABEL
+     */
+    const ACTIONS_SECONDARY_LABEL = 'Secondary Actions';
+
+    /**
+     * @var string MASS_SELECT_VALUE
+     */
+    const MASS_SELECT_VALUE = 'massSelect';
+    /**
+     * @var string MASS_SELECT_LABEL
+     */
+    const MASS_SELECT_LABEL = 'Mass Select feature';
 }

@@ -1,50 +1,31 @@
 <?php
+declare(strict_types=1);
 
 namespace Crimson\AdvancedTableView\Model\Config\Source\Table;
 
-use Crimson\AdvancedTableView\Api\ConfigurationDataInterface as Config;
+use Crimson\AdvancedTableView\Model\Source\Config;
 
 class Columns implements \Magento\Framework\Option\ArrayInterface
 {
+    public function __construct(
+        private readonly Config $config
+    )
+    {
+    }
 
     /**
      * @return array
      */
     public function toOptionArray(): array
     {
-        return [
-            [
-                'label' => __('Image'),
-                'value' => Config::IMAGE
-            ],
-            [
-                'label' => __('Name'),
-                'value' => Config::NAME
-            ],
-            [
-                'label' => __('SKU'),
-                'value' => Config::SKU
-            ],
-            [
-                'label' => __('Price'),
-                'value' => Config::PRICE
-            ],
-            [
-                'label' => __('Qty'),
-                'value' => Config::QTY
-            ],
-            [
-                'label' => __('Actions'),
-                'value' => Config::ACTIONS
-            ],
-            [
-                'label' => __('Secondary Actions'),
-                'value' => Config::ACTIONS_SECONDARY
-            ],
-            [
-                'label' => __('Mass Select'),
-                'value' => Config::MASS_SELECT
-            ]
-        ];
+        $columns = [];
+        foreach ($this->config->getColumns() as $column) {
+            $columns[] = [
+                'label' => __($column['label']),
+                'value' => ($column['value'])
+            ];
+        }
+
+        return $columns;
     }
 }

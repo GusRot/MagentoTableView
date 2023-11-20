@@ -32,5 +32,23 @@
                 </item>
             </argument>
         </field>
+        <field name="table_view_category_group" sortOrder="307" formElement="multiselect">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Crimson\AdvancedTableView\Model\Category\Attribute\Source\CustomerGroup</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="label" xsi:type="string" translate="true">Allow Customer Groups</item>
+                </item>
+            </argument>
+        </field>
+        <field name="table_view_category_columns" sortOrder="309" formElement="multiselect">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Crimson\AdvancedTableView\Model\Category\Attribute\Source\ColumnsGroup</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="label" xsi:type="string" translate="true">Hide Table Columns</item>
+                </item>
+            </argument>
+        </field>
     </fieldset>
 </form>

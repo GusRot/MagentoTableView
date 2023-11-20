@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="category.products.list" template="Crimson_AdvancedTableView::product/list.phtml">
+        <referenceBlock name="category.products.list" >
+            <action method="setTemplate" ifconfig="catalog/product_listing/enabled">
+                <argument name='template' xsi:type='string'>Crimson_AdvancedTableView::product/list.phtml</argument>
+            </action>
             <arguments>
                 <argument name="columns_view_model" xsi:type="object">Crimson\AdvancedTableView\ViewModel\ProductColumns</argument>
             </arguments>

@@ -3,11 +3,8 @@
         display: flex;
     }
 
-    .mode-table.modes-mode {
-        .lib-icon-font(
-            @icon-dropdown-list,
-            @_icon-font: @icons-magento__font-name
-        );
+    .requisition-list-action > .action.toggle {
+        display: flex;
     }
 
     .products-table .tocart-toolbar-select button {
@@ -40,6 +37,10 @@
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .toolbar-products .modes {
+        gap: @indent__s;
+    }
+
     .table-wrapper {
         padding-top: @indent__s;
 
@@ -72,10 +73,7 @@
                 align-items: center;
                 justify-content: center;
                 margin-bottom: @indent__s;
-            }
-
-            .actions-primary {
-                padding-right: 24px;
+                gap: 24px;
             }
             
             .out-of-stock {
@@ -86,6 +84,13 @@
 }
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .mode-table.modes-mode {
+        .lib-icon-font(
+            @icon-dropdown-list,
+            @_icon-font: @icons-magento__font-name
+        );
+    }
+
     table.products.list {
         .col {
             &.name {

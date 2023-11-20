@@ -1,9 +1,7 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 use Magento\Framework\App\Action\Action;
+use Crimson\AdvancedTableView\Api\ConfigurationDataInterface;
 
 ?>
 <?php
@@ -168,37 +166,40 @@ $_helper = $block->getData('outputHelper');
         <?php else: ?>
         <div class="table-wrapper">
             <table class="products list items">
-                <?php if ($visibleColumns->isMassSelectVisible()):?>
+                <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::MASS_SELECT_VALUE)):?>
                     <div class="tocart-toolbar-select">
-                        <button type="button" data-role="all-tocart" title="<?= $block->escapeHtmlAttr(__('Add All to Cart')) ?>" class="action tocart">
+                        <button type="submit" data-role="all-tocart" title="<?= $block->escapeHtmlAttr(__('Add All to Cart')) ?>" class="action tocart">
                             <span><?= $block->escapeHtml(__('Add All to Cart')) ?></span>
                         </button>
-                        <input type="checkbox" name="" id="tocart-select-all" data-role="select-all" />
-                        <label class="label" for="tocart-select-all"><?= $escaper->escapeHtml(__('Select all')) ?></label>
+                        <div>
+                            <input type="checkbox" name="" id="tocart-select-all" data-role="select-all" />
+                            <label class="label" for="tocart-select-all"><?= $escaper->escapeHtml(__('Choose/Deselect all')) ?></label>
+                        </div>
                     </div>
                 <?php endif; ?>
                 <caption class="table-caption"><?= $escaper->escapeHtml(__('Table product view')) ?></caption>
                 <thead>
                     <tr>
-                        <?php if ($visibleColumns->isMassSelectVisible()):?>
+                        <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::MASS_SELECT_VALUE)):?>
                             <th scope="col" class="col checkbox"><span><?= $escaper->escapeHtml(__('')) ?></span></th>
                         <?php endif; ?>
-                        <?php if ($visibleColumns->isImageVisible()):?>
+                        <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::IMAGE_VALUE)):?>
                             <th scope="col" class="col image"><span><?= $escaper->escapeHtml(__('Image')) ?></span></th>
                         <?php endif; ?>
-                        <?php if ($visibleColumns->isNameVisible()):?>
+                        <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::NAME_VALUE)):?>
                             <th scope="col" colspan="2" class="col name"><span><?= $escaper->escapeHtml(__('Product Name')) ?></span></th>
                         <?php endif; ?>
-                        <?php if ($visibleColumns->isSKUVisible()):?>
+                        <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::SKU_VALUE)):?>
                             <th scope="col" class="col sku"><span><?= $escaper->escapeHtml(__('SKU')) ?></span></th>
                         <?php endif; ?>
-                        <?php if ($visibleColumns->isPriceVisible()):?>
+                        <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::PRICE_VALUE)):?>
                             <th scope="col" class="col price"><span><?= $escaper->escapeHtml(__('Price')) ?></span></th>
                         <?php endif; ?>
-                        <?php if ($visibleColumns->isQtyVisible()):?>
+                        <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::QTY_VALUE)):?>
                             <th scope="col" class="col qty"><span><?= $escaper->escapeHtml(__('Qty')) ?></span></th>
                         <?php endif; ?>
-                        <?php if ($visibleColumns->isActionsVisible() && $visibleColumns->isActionsSecondaryVisible()):?>
+                        <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::ACTIONS_SECONDARY_VALUE)
+                            || $visibleColumns->isColumnVisible(ConfigurationDataInterface::ACTIONS_VALUE)):?>
                             <th scope="col" class="col actions"><span><?= $escaper->escapeHtml(__('Actions')) ?></span></th>
                         <?php endif; ?>
                     </tr>
@@ -207,16 +208,18 @@ $_helper = $block->getData('outputHelper');
                 <?php foreach ($_productCollection as $_product): ?>
                 <tr class="item product product-item">
 
-                    <?php if ($visibleColumns->isMassSelectVisible()):?>
+                    <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::MASS_SELECT_VALUE)):?>
                         <td class="col col-checkbox">
                             <input type="checkbox"
-                                name="selected[<?= /* @noEscape */ $_product->getId()*1 ?>]" data-role="select-product"
+                                name="table-checkbox"
+                                data-role="select-product"
+                                value = "<?= $_product->getId() ?>"
                                 <?= !$_product->isAvailable() ? 'disabled' : '' ?>
                                 class="checkbox product-item-checkbox" />
                         </td>
                     <?php endif; ?>
 
-                    <?php if ($visibleColumns->isImageVisible()):?>
+                    <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::IMAGE_VALUE)):?>
                         <?php
                         $productImage = $block->getImage($_product, $imageDisplayArea);
                         if ($pos != null) {
@@ -233,7 +236,7 @@ $_helper = $block->getData('outputHelper');
                         </td>
                     <?php endif; ?>
 
-                    <?php if ($visibleColumns->isNameVisible()):?>
+                    <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::NAME_VALUE)):?>
                         <?php $_productNameStripped = $block->stripTags($_product->getName(), null, true); ?>
                         <td data-th="<?= $escaper->escapeHtml(__('Name')) ?>" colspan="2" class="col col-name">
                             <strong class="product name product-item-name">
@@ -245,24 +248,24 @@ $_helper = $block->getData('outputHelper');
                         </td>
                     <?php endif; ?>
 
-                    <?php if ($visibleColumns->isSKUVisible()):?>
+                    <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::SKU_VALUE)):?>
                         <td data-th="<?= $escaper->escapeHtml(__('SKU')) ?>" class="col col-sku">
                             <?= $escaper->escapeHtml($_product->getSku()) ?>
                         </td>
                     <?php endif; ?>
 
-                    <?php if ($visibleColumns->isReviewsVisible()):?>
+                    <?php if (false):?>
                         <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
                     <?php endif; ?>
 
-                    <?php if ($visibleColumns->isPriceVisible()):?>
+                    <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::PRICE_VALUE)):?>
                         <td data-th="<?= $escaper->escapeHtml(__('Price')) ?>" class="col col-price">
                             <?= /* @noEscape */ $block->getProductPrice($_product) ?>
                         </td>
                     <?php endif; ?>
 
-                    <?php if ($visibleColumns->isQtyVisible()):?>
-                        <td data-th="<?= $escaper->escapeHtml(__('Qty')) ?>" 
+                    <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::QTY_VALUE)):?>
+                        <td data-th="<?= $escaper->escapeHtml(__('Qty')) ?>"
                             class="col col-qty <?= !$_product->isAvailable() ? 'out-of-stock' : '' ?>">
                             <input type="number"
                                 name="qty_column"
@@ -275,7 +278,7 @@ $_helper = $block->getData('outputHelper');
 
                     <td class="product-item-inner">
                         <div class="product actions product-item-actions">
-                            <?php if ($visibleColumns->isActionsVisible()):?>
+                            <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::ACTIONS_VALUE)):?>
                             <div class="actions-primary">
                                 <?php if ($_product->isSaleable()):?>
                                     <?php $postParams = $block->getAddToCartPostParams($_product); ?>
@@ -300,7 +303,8 @@ $_helper = $block->getData('outputHelper');
                                         <?= $block->getBlockHtml('formkey') ?>
                                         <input type="number"
                                             name="qty"
-                                            id="<?= $escaper->escapeHtmlAttr('id' . $_product->getSku()) ?>"
+                                            value="1"
+                                            id="<?= $escaper->escapeHtmlAttr('id' . $_product->getId()) ?>"
                                             class="qty" />
                                         <button type="submit"
                                                 title="<?= $escaper->escapeHtmlAttr(__('Add to Cart')) ?>"
@@ -321,7 +325,7 @@ $_helper = $block->getData('outputHelper');
                             </div>
                             <?php endif; ?>
 
-                            <?php if ($visibleColumns->isActionsSecondaryVisible()):?>
+                            <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::ACTIONS_SECONDARY_VALUE)):?>
                                 <div data-role="add-to-links" class="actions-secondary">
                                     <?php if ($addToBlock = $block->getChildBlock('addto')): ?>
                                         <?= $addToBlock->setProduct($_product)->getChildHtml() ?>
@@ -330,7 +334,7 @@ $_helper = $block->getData('outputHelper');
                             <?php endif; ?>
 
                         </div>
-                        <?php if ($visibleColumns->isDescriptionVisible()):?>
+                        <?php if (false):?>
                             <div class="product description product-item-description">
                                 <?= /* @noEscape */ $_helper->productAttribute(
                                     $_product,
@@ -357,15 +361,18 @@ $_helper = $block->getData('outputHelper');
             "catalogAddToCart": {
                 "product_sku": "<?= $escaper->escapeJs($_product->getSku()) ?>"
             }
-        },
-        "[data-role='select-all']": {
-            "Crimson_AdvancedTableView/js/select-all-change": {}
-        },
-        ".col-qty .input-text": {
-            "Crimson_AdvancedTableView/js/qty-filler": {
-                "checkboxAutoSelect": "true"
-            }
         }
     }
     </script>
+    <?php if ($visibleColumns->isColumnVisible(ConfigurationDataInterface::MASS_SELECT_VALUE)):?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=all-tocart]": {
+                "Crimson_AdvancedTableView/js/add-all-to-cart": {
+                    "url": "<?= $escaper->escapeHtml($block->getUrl('advancedTableView/cart/add')) ?>"
+                }
+            }
+        }
+        </script>
+    <?php endif; ?>
 <?php endif; ?>

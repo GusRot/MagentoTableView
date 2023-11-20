@@ -19,6 +19,7 @@ class Config
         private readonly Session               $customerSession,
         private readonly StoreManagerInterface $storeManager,
         private readonly ScopeConfig           $scopeConfig,
+        private readonly array                 $columns = []
     ) { }
 
     /**
@@ -33,13 +34,13 @@ class Config
             return false;
         }
 
-        $groups = $this->getCustomerGroups();
-        if(empty($groups)) {
+        $allowedGroups = $this->getCustomerGroups();
+        if(empty($allowedGroups)) {
             return true;
         }
 
         $customerGroupId = $this->customerSession->isLoggedIn() ? $this->customerSession->getCustomer()->getGroupId() : 0;
-        if(!in_array($customerGroupId, explode(',', $groups))) {
+        if(!in_array($customerGroupId, $allowedGroups)) {
             return false;
         }
 
@@ -64,29 +65,39 @@ class Config
     /**
      * @throws NoSuchEntityException
      */
-    public function getCustomerGroups(): mixed
+    public function getCustomerGroups(): array
     {
+        $currentCategory = $this->getCategory();
+        if($currentCategory->getData('table_view_category_enabled')) {
+            return $currentCategory->getData('table_view_category_group') ?? [];
+        }
+
         $storeId = $this->getStore();
-        //TODO check category config
-
-        return $this->scopeConfig->getCustomerGroups(ScopeInterface::SCOPE_STORE, $storeId);
-    }
-
-    /**
-        * @throws NoSuchEntityException
-        */
-    public function getHiddenColumns(): array
-    {
-        $storeId = $this->getStore();
-        //TODO check category config
-
-        $groups = $this->scopeConfig->getHiddenColumns(ScopeInterface::SCOPE_STORE, $storeId);
-
-        if(empty($groups)) {
+        $customerGroups = $this->scopeConfig->getCustomerGroups(ScopeInterface::SCOPE_STORE, $storeId);
+        if(empty($customerGroups)) {
             return [];
         }
 
-        return explode(',', $groups);
+        return explode(',', $customerGroups);
+    }
+
+    /**
+    * @throws NoSuchEntityException
+    */
+    public function getHiddenColumns(): array
+    {
+        $currentCategory = $this->getCategory();
+        if($currentCategory->getData('table_view_category_enabled')) {
+            return $currentCategory->getData('table_view_category_columns') ?? [];
+        }
+
+        $storeId = $this->getStore();
+        $columns = $this->scopeConfig->getHiddenColumns(ScopeInterface::SCOPE_STORE, $storeId);
+        if(empty($columns)) {
+            return [];
+        }
+
+        return explode(',', $columns);
     }
 
     /**
@@ -102,4 +113,8 @@ class Config
         return $this->view->getCurrentCategory();
     }
 
+    public function getColumns(): array
+    {
+        return $this->columns;
+    }
 }

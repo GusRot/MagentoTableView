@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Crimson\AdvancedTableView\Plugin\Helper\Product;
 
 use Magento\Catalog\Helper\Product\ProductList;
